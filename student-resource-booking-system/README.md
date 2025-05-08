@@ -79,8 +79,8 @@ student-resource-booking-system
 
 ## Deployment
 
-- **Frontend**: [Deployed Frontend Link](#)
-- **Backend**: [Deployed Backend Link](#)
+- **Frontend**: [Deployed Frontend Link](web-dev-chi-umber.vercel.app)
+- **Backend**: [Deployed Backend Link](https://web-dev-i6o2.onrender.com)
 
 ## API Endpoints
 
