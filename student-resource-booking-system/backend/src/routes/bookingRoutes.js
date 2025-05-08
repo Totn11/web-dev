@@ -1,64 +1,29 @@
-import express from 'express';
-import verifyAccess from '../middleware/authMiddleware.js';
-import validateInput from '../middleware/validationMiddleware.js';
-import bookingManager from '../controllers/bookingController.js';
+const express = require("express");
+// const verifyAccess = require("../middleware/authMiddleware");
+// const { validateBooking } = require("../middleware/validationMiddleware");
+const {
+  createBooking,
+  getUserBookings,
+  updateBooking,
+  deleteBooking,
+  allBookings
+} = require("../controllers/bookingController");
 
 const router = express.Router();
 
-const initializeBookingRoutes = () => {
-    // Create new booking
-    router.post(
-        '/new',
-        verifyAccess.validateSession,
-        validateInput.bookingRequest,
-        bookingManager.processNewBooking
-    );
+// Create new booking
+router.post("/new", createBooking);
 
-    // Get user's bookings
-    router.get(
-        '/history',
-        verifyAccess.validateSession,
-        bookingManager.fetchUserBookings
-    );
+// Get user's bookings
+router.get("/history",  getUserBookings);
 
-    // Update existing booking
-    router.put(
-        '/modify/:bookingId',
-        verifyAccess.validateSession,
-        validateInput.bookingRequest,
-        bookingManager.modifyBooking
-    );
+// Update existing booking
+router.put( "/modify/:bookingId",  updateBooking);
 
-    // Cancel booking
-    router.delete(
-        '/cancel/:bookingId',
-        verifyAccess.validateSession,
-        bookingManager.cancelBooking
-    );
+// Cancel booking
+router.delete("/cancel/:bookingId",deleteBooking);
 
-    // Admin route: View all bookings
-    router.get(
-        '/all',
-        verifyAccess.validateSession,
-        verifyAccess.checkAdminRights,
-        async (req, res) => {
-            try {
-                const allBookings = await bookingManager.getAllBookings();
-                res.status(200).json({
-                    success: true,
-                    data: allBookings
-                });
-            } catch (err) {
-                res.status(500).json({
-                    success: false,
-                    message: 'Failed to retrieve bookings',
-                    error: err.message
-                });
-            }
-        }
-    );
-};
+// Admin route: View all bookings
+router.get( "/all",allBookings);
 
-initializeBookingRoutes();
-
-export default router;
+module.exports = router;

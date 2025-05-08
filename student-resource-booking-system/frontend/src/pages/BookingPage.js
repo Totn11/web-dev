@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../context/api';
 import { useAuth } from '../context/AuthContext';
 
 const BookingPage = () => {
@@ -15,7 +16,7 @@ const BookingPage = () => {
 
         const fetchAvailableResources = async () => {
             try {
-                const response = await axios.get('/api/resources/list', {
+                const response = await api.get('/api/resources/list', {
                     headers: {
                         'Authorization': `Bearer ${authState.token}`,
                         'Cache-Control': 'no-cache'
@@ -73,7 +74,7 @@ const BookingPage = () => {
         setIsProcessing(true);
 
         try {
-            const response = await axios.post('/api/bookings/new', {
+            const response = await api.post('/api/bookings/new', {
                 resourceId: selectedResource._id,
                 timeSlot: chosenSlot
             }, {
@@ -91,7 +92,7 @@ const BookingPage = () => {
                 setChosenSlot('');
                 
                 // Refresh resource list to update availability
-                const updatedResources = await axios.get('/api/resources/list', {
+                const updatedResources = await api.get('/api/resources/list', {
                     headers: {
                         'Authorization': `Bearer ${authState.token}`
                     }

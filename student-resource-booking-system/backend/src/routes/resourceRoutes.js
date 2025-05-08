@@ -1,45 +1,25 @@
-// backend/src/routes/resourceRoutes.js
-
-import express from 'express';
-import verifyAccess from '../middleware/authMiddleware.js';
-import manageResources from '../controllers/resourceController.js';
+const express = require("express");
+// const verifyAccess = require("../middleware/authMiddleware");
+// const { validateResource } = require("../middleware/validationMiddleware");
+const {
+  fetchAll,
+  addNew,
+  modifyExisting,
+  removeItem
+} = require("../controllers/resourceController");
 
 const router = express.Router();
 
-// Initialize routes with custom naming
-const setupResourceRoutes = () => {
-    // Get all resources
-    router.get(
-        '/list', 
-        verifyAccess.validateSession,
-        manageResources.fetchAll
-    );
+  // Get all resources
+  router.get("/list", fetchAll);
 
-    // Add new resource
-    router.post(
-        '/create',
-        verifyAccess.validateSession,
-        verifyAccess.checkAdminRights,
-        manageResources.addNew
-    );
+  // Add new resource
+  router.post("/create",addNew);
 
-    // Update existing resource
-    router.put(
-        '/update/:id',
-        verifyAccess.validateSession,
-        verifyAccess.checkAdminRights,
-        manageResources.modifyExisting
-    );
+  // Update existing resource
+  router.put("/update/:id", modifyExisting);
 
-    // Remove resource
-    router.delete(
-        '/remove/:id',
-        verifyAccess.validateSession,
-        verifyAccess.checkAdminRights,
-        manageResources.removeItem
-    );
-};
+  // Remove resource
+  router.delete("/remove/:id", removeItem);
 
-setupResourceRoutes();
-
-export default router;
+module.exports = router;

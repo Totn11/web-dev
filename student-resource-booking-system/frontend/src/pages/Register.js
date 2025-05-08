@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../context/api';
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -101,7 +102,7 @@ const RegisterPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (!validateForm()) return;
+        if (!validateForm()) console.log("Error filling form");
 
         setPageState(prev => ({
             ...prev,
@@ -109,20 +110,21 @@ const RegisterPage = () => {
         }));
 
         try {
-            const response = await axios.post('/api/auth/signup', {
+            const response = await api.post('/api/auth/register', {
                 name: formFields.name,
                 email: formFields.email,
                 password: formFields.password,
                 role: formFields.role
             });
 
-            if (response.data.success) {
-                navigate('/login', { 
+            if (response.data.message) {
+                navigate('/', { 
                     state: { message: 'Registration successful! Please login.' }
                 });
             }
         } catch (err) {
-            const errorMsg = err.response?.data?.message || 'Registration failed';
+            console.log(err)
+            const errorMsg = err.response?.data?.errors[0].msg || err.response?.data?.errors?.message || 'Registration failed';
             setPageState(prev => ({
                 ...prev,
                 errors: {

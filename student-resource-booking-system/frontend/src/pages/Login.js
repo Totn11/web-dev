@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../context/api';
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
@@ -48,7 +49,7 @@ const LoginPage = () => {
         setUiState(prev => ({ ...prev, isProcessing: true }));
 
         try {
-            const response = await axios.post('/api/auth/signin', formData);
+            const response = await api.post('/api/auth/login', formData);
             const { token, user } = response.data;
 
             authenticateUser(user, token);

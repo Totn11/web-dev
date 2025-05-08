@@ -1,28 +1,31 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
-const resourceSchema = new mongoose.Schema({
+const resourceSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     description: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     category: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     availableSlots: {
-        type: [String],
-        required: true,
+      type: [String],
+      required: true,
     },
     status: {
-        type: String,
-        enum: ['Available', 'Booked'],
-        default: 'Available',
+      type: String,
+      enum: ["Available", "Booked"],
+      default: "Available",
     },
-}, { timestamps: true });
+  },
+  { timestamps: true }
+);
 
-const Resource = mongoose.model('Resource', resourceSchema);
-export default Resource;
+const Resource = mongoose.model("Resource", resourceSchema);
+module.exports = Resource;
